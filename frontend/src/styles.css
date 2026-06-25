@@ -1,0 +1,225 @@
+:root {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  background: #f5f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.hero {
+  background: linear-gradient(135deg, #ffffff, #edf2ff);
+  border: 1px solid #dfe6f5;
+  border-radius: 24px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.09em;
+  color: #526077;
+  margin: 0 0 8px;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 18px;
+  max-width: 780px;
+  color: #4d5a70;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #dfe6f5;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 12px 40px rgba(33, 45, 80, 0.08);
+}
+
+.form-card {
+  position: sticky;
+  top: 20px;
+}
+
+.helper {
+  color: #647084;
+  line-height: 1.5;
+}
+
+label {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0;
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #c8d1e1;
+  border-radius: 12px;
+  font: inherit;
+}
+
+input:focus {
+  outline: 3px solid #dbe7ff;
+  border-color: #5677ff;
+}
+
+button {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #172033;
+  color: white;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.overall {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 24px;
+}
+
+.overall.pass {
+  background: #ecfdf3;
+}
+
+.overall.warning {
+  background: #fff7e6;
+}
+
+.overall.fail {
+  background: #fff0f0;
+}
+
+.overall-icon {
+  font-size: 42px;
+}
+
+.checks {
+  display: grid;
+  gap: 14px;
+}
+
+.check {
+  border: 1px solid #dfe6f5;
+  border-left-width: 8px;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.check.pass {
+  border-left-color: #2eaa62;
+}
+
+.check.warning {
+  border-left-color: #d99a1e;
+}
+
+.check.fail {
+  border-left-color: #d94b4b;
+}
+
+.check-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 8px 12px;
+  margin-bottom: 0;
+}
+
+dt {
+  font-weight: 800;
+  color: #526077;
+}
+
+dd {
+  margin: 0;
+}
+
+.raw {
+  margin-top: 24px;
+}
+
+pre {
+  overflow: auto;
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.error {
+  padding: 16px;
+  background: #fff0f0;
+  border: 1px solid #ffc9c9;
+  border-radius: 12px;
+}
+
+.loading {
+  padding: 16px;
+  background: #edf2ff;
+  border-radius: 12px;
+}
+
+.empty {
+  min-height: 280px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card {
+    position: static;
+  }
+}
