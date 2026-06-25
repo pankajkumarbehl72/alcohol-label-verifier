@@ -83,12 +83,36 @@ def fuzzy_check(field: str, expected: str, found: Optional[str], pass_score: int
 
     expected_norm = normalize_for_fuzzy(expected)
     found_norm = normalize_for_fuzzy(found)
-    score = fuzz.token_sort_ratio(expected_norm, found_norm)
 
-    if score >= pass_score:
+    score = fuzz.token_sort_ratio(expected_norm, found_norm)
+    partial_score = fuzz.partial_ratio(expected_norm, found_norm)
+    token_set_score = fuzz.token_set_ratio(expected_norm, found_norm)
+
+    best_score = max(score, partial_score, token_set_score)
+
+    # Important for cases like:
+    # Expected: OLD TOM DISTILLERY
+    # Found: OLD TOM
+    # This is incomplete but highly related, so mark WARNING instead of FAIL.
+    expected_tokens = set(expected_norm.split())
+    found_tokens = set(found_norm.split())
+
+    missing_tokens = expected_tokens - found_tokens
+    shared_tokens = expected_tokens & found_tokens
+
+    if expected_norm == found_norm:
         status = CheckStatus.PASS
-        msg = f"{field} matches. Minor case/punctuation differences are acceptable."
-    elif score >= warning_score:
+        msg = f"{field} matches exactly after normalization."
+    elif token_set_score >= pass_score and len(missing_tokens) == 0:
+        status = CheckStatus.PASS
+        msg = f"{field} matches after ignoring word order/punctuation."
+    elif best_score >= pass_score:
+        status = CheckStatus.PASS
+        msg = f"{field} appears to match with minor formatting differences."
+    elif len(shared_tokens) >= 2 and len(missing_tokens) <= 2:
+        status = CheckStatus.WARNING
+        msg = f"{field} is partially matched but missing token(s): {', '.join(sorted(missing_tokens))}. Agent review recommended."
+    elif best_score >= warning_score:
         status = CheckStatus.WARNING
         msg = f"{field} is similar but should be reviewed by an agent."
     else:
@@ -100,10 +124,9 @@ def fuzzy_check(field: str, expected: str, found: Optional[str], pass_score: int
         status=status,
         expected=expected,
         found=found,
-        score=round(score, 2),
+        score=round(best_score, 2),
         message=msg
     )
-
 
 def alcohol_content_check(expected: str, found: Optional[str]) -> FieldCheck:
     expected_abv = extract_abv_percent(expected)

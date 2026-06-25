@@ -1,6 +1,9 @@
 import os
 import tempfile
 import time
+from dotenv import load_dotenv
+import os
+load_dotenv()
 from typing import Optional
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
